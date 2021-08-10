@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 
 # basic libs
 RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install -y wget build-essential gcc zlib1g-dev libbz2-dev git curl xz-utils file sudo unzip
+RUN apt-get install -y wget build-essential gcc zlib1g-dev libbz2-dev git curl xz-utils file sudo unzip liblzma-dev
 
 # latest openssl for python
 WORKDIR /root/

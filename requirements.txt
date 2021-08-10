@@ -2,3 +2,6 @@ mecab-python3==0.996.2
 gensim
 python-Levenshtein
 pymagnitude
+pandas
+matplotlib
+seaborn
