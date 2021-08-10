@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 
 # basic libs
 RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install -y wget build-essential gcc zlib1g-dev libbz2-dev
+RUN apt-get install -y wget build-essential gcc zlib1g-dev libbz2-dev git
 
 # latest openssl for python
 WORKDIR /root/
@@ -29,6 +29,13 @@ RUN ln -s pip3.6 pip
 
 # mecab
 RUN apt-get install -y mecab libmecab-dev mecab-ipadic mecab-ipadic-utf8
+
+# mecab-ipadi-NEologd
+WORKDIR /root/
+RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git
+WORKDIR /root/mecab-ipadic-neologd
+RUN ./bin/install-mecab-ipadic-neologd -n
+RUN echo `mecab-config --dicdir`"/mecab-ipadic-neologd" > neologd.log
 
 RUN cp /etc/mecabrc /usr/local/etc/mecabrc
 
