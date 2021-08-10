@@ -31,7 +31,7 @@ RUN ln -s pip3.6 pip
 RUN apt-get install -y mecab libmecab-dev mecab-ipadic mecab-ipadic-utf8
 
 # python app settings
-ADD requirements.txt ./requirements.txt
-RUN pip install -r requirements.txt
+# ADD requirements.txt ./requirements.txt
+RUN pip install mecab-python3 gensim
 
 WORKDIR /
