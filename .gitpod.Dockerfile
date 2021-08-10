@@ -42,6 +42,6 @@ RUN echo "dicdir = "`mecab-config --dicdir`"/mecab-ipadic-neologd" > /usr/local/
 
 # python app settings
 # ADD requirements.txt ./requirements.txt
-RUN pip install mecab-python3 gensim python-Levenshtein
+# RUN pip install mecab-python3 gensim python-Levenshtein
 
 WORKDIR /
