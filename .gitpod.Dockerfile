@@ -30,7 +30,7 @@ RUN ln -s pip3.6 pip
 # mecab
 RUN apt-get install -y mecab libmecab-dev mecab-ipadic mecab-ipadic-utf8
 
-RUN cp /etc/mecabrc /usr/local/mecabrc
+RUN cp /etc/mecabrc /usr/local/etc/mecabrc
 
 # python app settings
 # ADD requirements.txt ./requirements.txt
