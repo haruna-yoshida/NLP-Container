@@ -3,7 +3,7 @@ FROM ubuntu:20.04
 
 # basic libs
 RUN apt-get update -y && apt-get upgrade -y
-RUN apt-get install -y wget build-essential gcc zlib1g-dev libbz2-dev git curl xz-utils file sudo
+RUN apt-get install -y wget build-essential gcc zlib1g-dev libbz2-dev git curl xz-utils file sudo unzip
 
 # latest openssl for python
 WORKDIR /root/
@@ -42,6 +42,6 @@ RUN echo "dicdir = "`mecab-config --dicdir`"/mecab-ipadic-neologd" > /usr/local/
 
 # python app settings
 # ADD requirements.txt ./requirements.txt
-RUN pip install mecab-python3 gensim
+RUN pip install mecab-python3 gensim python-Levenshtein
 
 WORKDIR /
