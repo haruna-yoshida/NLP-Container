@@ -6,5 +6,6 @@ wget https://moji.or.jp/wp-content/ipafont/IPAexfont/ipaexg00401.zip --no-check-
 unzip ipaexg00401.zip "*.ttf"
 mv ipaexg00401/ipaexg.ttf /workspace/.pip-modules/lib/python3.6/site-packages/matplotlib/mpl-data/fonts/ttf/
 rm -r ipaexg00401
+rm ipaexg00401.zip
 sed -i -e 's/#font.family:  sans-serif/font.family : IPAexGothic/g' /workspace/.pip-modules/lib/python3.6/site-packages/matplotlib/mpl-data/matplotlibrc
 rm -r ~/.cache/matplotlib
