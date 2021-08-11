@@ -31,7 +31,7 @@ RUN ln -s pip3.6 pip
 RUN apt-get install -y mecab libmecab-dev mecab-ipadic mecab-ipadic-utf8
 RUN cp /etc/mecabrc /usr/local/etc/mecabrc
 
-# mecab-ipadic-NEologd
+# mecab-ipadi-NEologd
 WORKDIR /root/
 RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git
 WORKDIR /root/mecab-ipadic-neologd
