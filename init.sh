@@ -8,4 +8,3 @@ mv ipaexg00401/ipaexg.ttf /workspace/.pip-modules/lib/python3.6/site-packages/ma
 rm -r ipaexg00401
 rm ipaexg00401.zip
 sed -i -e 's/#font.family:  sans-serif/font.family : IPAexGothic/g' /workspace/.pip-modules/lib/python3.6/site-packages/matplotlib/mpl-data/matplotlibrc
-rm -r ~/.cache/matplotlib
