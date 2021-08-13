@@ -1,4 +1,3 @@
-
 FROM ubuntu:20.04
 
 # basic libs
@@ -31,17 +30,11 @@ RUN ln -s pip3.6 pip
 RUN apt-get install -y mecab libmecab-dev mecab-ipadic mecab-ipadic-utf8
 RUN cp /etc/mecabrc /usr/local/etc/mecabrc
 
-# mecab-ipadi-NEologd
+# mecab-ipadic-NEologd
 WORKDIR /root/
 RUN git clone --depth 1 https://github.com/neologd/mecab-ipadic-neologd.git
 WORKDIR /root/mecab-ipadic-neologd
 RUN ./bin/install-mecab-ipadic-neologd -n -y
 RUN echo "dicdir = "`mecab-config --dicdir`"/mecab-ipadic-neologd" > /usr/local/etc/mecabrc
-
-
-
-# python app settings
-# ADD requirements.txt ./requirements.txt
-# RUN pip install mecab-python3 gensim python-Levenshtein
 
 WORKDIR /
