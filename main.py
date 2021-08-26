@@ -56,7 +56,19 @@ def get_concept_number(quest:str) -> list:
     return concept_number_tuple
         
 def get_standard_list(normalize_list:list) -> list:
+    """
+    概念と数量のlistから共通概念処理されたlistを作成
 
+    Parameters
+    ----------
+    normalize_list : list
+        序数詞に1番近い一般名詞tuple型にしてlistに格納
+    
+    Returns
+    -------
+    standard_list : list
+        共通概念処理されたlist
+    """
     vectors = Magnitude("chive-1.2-mc5.magnitude")
     standard_list = []
     normalize_word_set = set([normalizeword_tuple[0] for normalizeword_tuple in normalize_list])
