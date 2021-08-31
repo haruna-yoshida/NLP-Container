@@ -3,6 +3,8 @@
 import MeCab
 import collections 
 import numpy as np
+from pymagnitude import Magnitude
+from statistics import mode
 
 def get_concept_number(quest:str) -> list:
     """
@@ -53,8 +55,41 @@ def get_concept_number(quest:str) -> list:
     
     return concept_number_tuple
         
+def get_standard_list(normalize_list:list) -> list:
+    """
+    概念と数量のlistから共通概念処理されたlistを作成
+
+    Parameters
+    ----------
+    normalize_list : list
+        序数詞に1番近い一般名詞tuple型にしてlistに格納
+    
+    Returns
+    -------
+    standard_list : list
+        共通概念処理されたlist
+    """
+    vectors = Magnitude("chive-1.2-mc5.magnitude")
+    standard_list = []
+    normalize_word_set = set([normalizeword_tuple[0] for normalizeword_tuple in normalize_list])
+    duplicate_list = []
+    allduplicate_list = []
+
+    for word in normalize_list:
+        # vectors.most_similar(word[0], topn=10)はtuple型のlistである.
+        # 単語のリスト化を行う
+        word_set = set([word_tuple[0] for word_tuple in vectors.most_similar(word[0], topn=10) ])
+        #重複単語のリスト化
+        duplicate_list = list((normalize_word_set & word_set))
+        allduplicate_list.extend(duplicate_list)
+    #allduplicate_listの再頻出単語
+    base_word = (mode(allduplicate_list))
+    for normalize_word in normalize_list:
+        standard_list.append((base_word,normalize_word[1]))
+    return standard_list
 
 if __name__ == "__main__":
-    quest = str("あめが64個あります。36人の子どもに1個ずつ分けると、あめは何個あまりますか。")
-    concept_number_list = get_concept_number(quest)
-    print(concept_number_list)
+    quest = str("林檎が2個、蜜柑が3個あります。果物は何個でしょう。")
+    normalize_list = get_concept_number(quest)
+    standard_list = get_standard_list(normalize_list)
+    print(standard_list)
