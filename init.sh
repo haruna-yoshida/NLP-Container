@@ -1,5 +1,9 @@
+pip install --upgrade pip
 # init install python packages
 pip install -r requirements.txt
+
+#install magnitude
+wget https://sudachi.s3-ap-northeast-1.amazonaws.com/chive/chive-1.2-mc5.magnitude --no-check-certificate
 
 # setup japanease font
 wget https://moji.or.jp/wp-content/ipafont/IPAexfont/ipaexg00401.zip --no-check-certificate

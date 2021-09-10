@@ -1,0 +1,7 @@
+#how to add database
+ 1. googleスプレッドシートから、ファイル→ウェブに公開
+ 2. このシートとcsv形式を選択し公開
+ 3. リンクをコピーして update_csv_data.sh に追加(4,5行目をコピーしてリンクをコピペ)
+ 4. terminalでsh update_csv_data.shを実行
+
+ 
