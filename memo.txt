@@ -1,0 +1,35 @@
+最初にやること
+#pipのupdate
+pip install --upgrade pip setuptools
+
+#requirementsのinstall
+pip install -r requirements.txt
+
+#update_csv_data.shのinstall
+sh update_csv_data.sh
+
+#init.shのinstall
+sh init.sh
+
+今できていること(10/24)
+    始め犬が3匹飼っていました。新しく猫を2匹飼うと動物は全部で何匹になりますか。
+    正規化処理完了
+    [('犬', '3', '飼う', 2), ('猫', '2', '飼う', 13), ('動物', '何', '飼う', 19)]
+    共通概念処理完了
+    [('犬', '3', '飼う', 2), ('犬', '2', '飼う', 13), ('犬', '何', '飼う', 19)]
+    犬:2 - 始め1  = 1
+    犬:13 - 始め1  = 12
+    犬:19 - 始め1  = 18
+    [{'before': ('犬', '3', '飼う', 2)}]
+    犬:2 - 新しく12  = 10
+    犬:13 - 新しく12  = 1
+    犬:19 - 新しく12  = 7
+    [{'before': ('犬', '3', '飼う', 2)}, {'increase': ('犬', '2', '飼う', 13)}]
+
+
+
+次にやること（10/24）
+before とincrease から答えを出す
+->def answer_table()を作成して、[{'before': ('犬', '3', '飼う', 2)}, {'increase': ('犬', '2', '飼う', 13)}]の中身を足したものをprint
+
+

@@ -1,3 +1,4 @@
+pip install --upgrade pip
 # init install python packages
 pip install -r requirements.txt
 
@@ -13,3 +14,8 @@ sed -i -e 's/#font.family:  sans-serif/font.family : IPAexGothic/g' /workspace/.
 mkdir data
 # Download csv file
 sh update_csv_data.sh
+
+#install magnitude
+if [ ! -e "chive-1.2-mc5.magnitude"]; then
+    wget https://sudachi.s3-ap-northeast-1.amazonaws.com/chive/chive-1.2-mc5.magnitude --no-check-certificate
+fi
