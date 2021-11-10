@@ -32,4 +32,12 @@ sh init.sh
 before とincrease から答えを出す
 ->def answer_table()を作成して、[{'before': ('犬', '3', '飼う', 2)}, {'increase': ('犬', '2', '飼う', 13)}]の中身を足したものをprint
 
+できたことと検討すること（11/10）
+    #やってみたこと
+        [14]の問題（始め犬は〜）は解けるようになった
+        ans = int(table['before'][1])+int(table['increase'])
+    #相談したいこと
+        ・int()のいい書き方がないか（いちいちintを書くのは汚い）
+        ・もともとbefore,increase,decrease,answerの枠を作っておいて、あれば代入、なければ0を入れる形にしたい
+        ・
 

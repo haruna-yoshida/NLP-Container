@@ -16,6 +16,6 @@ mkdir data
 sh update_csv_data.sh
 
 #install magnitude
-if [ ! -e "chive-1.2-mc5.magnitude"]; then
+if [ ! -e "chive-1.2-mc5.magnitude" ];then
     wget https://sudachi.s3-ap-northeast-1.amazonaws.com/chive/chive-1.2-mc5.magnitude --no-check-certificate
 fi
