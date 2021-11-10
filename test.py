@@ -184,10 +184,11 @@ def get_normalize_table(quest:str,node_features:list,node_surfaces:list):
         table[important_word[2]]=min_element 
         # print(len(table))
         # print(table['before'])
-        print(table)
+        
+    print(table)
 
     ans = int(table['before'][1])+int(table['increase'][1])
-    print(ans)
+    print("答えは" + str(ans))
     # answer_table.append(table['before'])
     # print(answer_table)
             
