@@ -53,6 +53,7 @@ def get_concept_number(quest:str,node_features:list,node_surfaces:list):
     words=[]
     nums=[]
     verbs = []
+    num_word_tuple = []
     concept_number_tuple = []
     
     i = 1
@@ -71,7 +72,7 @@ def get_concept_number(quest:str,node_features:list,node_surfaces:list):
             nums.append((origin,i))
         
 
-        if node_feature.split(",")[0] in ["動詞","助動詞"] :
+        if node_feature.split(",")[0] in ["動詞","助動詞","自立"] :
             # print(node_surface.split(","))
             origin = node_surface.split(",")[0]
             verbs.append((origin,i))
@@ -91,19 +92,23 @@ def get_concept_number(quest:str,node_features:list,node_surfaces:list):
                 min_string = word[0]
                 min_index = word[1]
                 min_diff = diff
+        num_word_tuple.append((min_string,num[0],min_index))
             
-            min_verbs = verbs[0][0]
-            min_vdiff = 99998
-            for verb in verbs:
-                vdiff = abs(word[1] - verb[1])
-                if vdiff < min_vdiff:
-                    min_verbs = verb[0]
-                    min_vdiff = vdiff
-        # print("({},{})".format(min_string,num[0]))
-        # min_stringとnumのtuple型をlistに格納
-        # concept_number_tuple.append((min_string,num[0]))
-        
-        concept_number_tuple.append((min_string,num[0],min_verbs,min_index))
+
+    for num_word in num_word_tuple:        
+        min_verbs = verbs[0][0]
+        min_vdiff = 99998
+        for verb in verbs:
+            vdiff = verb[1] - num_word[2]
+            if vdiff <= 0:
+                continue
+            
+            if vdiff < min_vdiff:
+                min_verbs = verb[0]
+                min_vdiff = vdiff
+                # print("({},{})".format(min_string,num[0]))
+                # min_stringとnumのtuple型をlistに格納
+        concept_number_tuple.append((num_word[0],num_word[1],min_verbs,num_word[2]))
 
 
     return concept_number_tuple
@@ -134,6 +139,7 @@ def get_standard_list(normalize_list:list) -> list:
         word_set = set([word_tuple[0] for word_tuple in vectors.most_similar(word[0], topn=10) ])
         #重複単語のリスト化
         duplicate_list = list((normalize_word_set & word_set))
+        duplicate_list.append(word[0])
         allduplicate_list.extend(duplicate_list)
     #allduplicate_listの再頻出単語
     base_word = (mode(allduplicate_list))
@@ -199,7 +205,7 @@ if __name__ == "__main__":
     with open('/workspace/NLP-Container/data/sample_questions.csv' , encoding ="utf_8") as f:
         reader = csv.reader(f)
         quest_list = [row for row in reader]
-    quest = quest_list[14][4]
+    quest = quest_list[16][4]
     print(quest)
     with open('/workspace/NLP-Container/data/time_expression_base.csv', encoding ="utf_8") as f:
         reader = csv.reader(f)

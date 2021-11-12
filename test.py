@@ -5,8 +5,17 @@ import collections
 import numpy as np
 from pymagnitude import Magnitude
 from statistics import mode
+from collections import  Counter
 import csv
 import pprint
+
+class MyTable:
+    def __init__(self):
+        self.before = []
+        self.increase = [("null",0,0,0)]
+        self.decrease = [("null",0,0,0)]
+        self.after = [("null",0,0,0)]
+
 
 def get_node_info(quest:str) -> (list,list):
     """
@@ -53,13 +62,14 @@ def get_concept_number(quest:str,node_features:list,node_surfaces:list):
     words=[]
     nums=[]
     verbs = []
+    num_word_tuple = []
     concept_number_tuple = []
     
     i = 1
 
     for node_feature, node_surface in zip(node_features,node_surfaces):
         hinshi = node_feature.split(",")[1]
-        if hinshi in ["一般"]:
+        if hinshi in ["一般","固有名詞"]:
             # print(node_surface)
             origin = node_feature.split(",")[6]
             words.append((origin,i))
@@ -71,7 +81,7 @@ def get_concept_number(quest:str,node_features:list,node_surfaces:list):
             nums.append((origin,i))
         
 
-        if node_feature.split(",")[0] in ["動詞","助動詞"] :
+        if node_feature.split(",")[0] in ["動詞","助動詞","自立"] :
             # print(node_surface.split(","))
             origin = node_surface.split(",")[0]
             verbs.append((origin,i))
@@ -91,19 +101,23 @@ def get_concept_number(quest:str,node_features:list,node_surfaces:list):
                 min_string = word[0]
                 min_index = word[1]
                 min_diff = diff
+        num_word_tuple.append((min_string,num[0],min_index))
             
-            min_verbs = verbs[0][0]
-            min_vdiff = 99998
-            for verb in verbs:
-                vdiff = abs(word[1] - verb[1])
-                if vdiff < min_vdiff:
-                    min_verbs = verb[0]
-                    min_vdiff = vdiff
-        # print("({},{})".format(min_string,num[0]))
-        # min_stringとnumのtuple型をlistに格納
-        # concept_number_tuple.append((min_string,num[0]))
-        
-        concept_number_tuple.append((min_string,num[0],min_verbs,min_index))
+
+    for num_word in num_word_tuple:        
+        min_verbs = verbs[0][0]
+        min_vdiff = 99998
+        for verb in verbs:
+            vdiff = verb[1] - num_word[2]
+            if vdiff <= 0:
+                continue
+            
+            if vdiff < min_vdiff:
+                min_verbs = verb[0]
+                min_vdiff = vdiff
+                # print("({},{})".format(min_string,num[0]))
+                # min_stringとnumのtuple型をlistに格納
+        concept_number_tuple.append((num_word[0],num_word[1],min_verbs,num_word[2]))
 
 
     return concept_number_tuple
@@ -134,9 +148,10 @@ def get_standard_list(normalize_list:list) -> list:
         word_set = set([word_tuple[0] for word_tuple in vectors.most_similar(word[0], topn=10) ])
         #重複単語のリスト化
         duplicate_list = list((normalize_word_set & word_set))
+        duplicate_list.append(word[0])
         allduplicate_list.extend(duplicate_list)
     #allduplicate_listの再頻出単語
-    base_word = (mode(allduplicate_list))
+    base_word = Counter(allduplicate_list).most_common()[0][0]
     for normalize_word in normalize_list:
         standard_list.append((base_word,normalize_word[1],normalize_word[2],normalize_word[3]))
     return standard_list
@@ -148,7 +163,7 @@ def get_normalize_table(quest:str,node_features:list,node_surfaces:list):
     important_words = []
     keywords = []
     concept_number_tuple = []
-    table = {}
+    table = MyTable()
     answer_table = []
 
     i = 1
@@ -159,7 +174,7 @@ def get_normalize_table(quest:str,node_features:list,node_surfaces:list):
             for keyword in keywords:
                 #print(keyword)
                 # print(time_expression_word[0])
-                if time_expression_word[0] == keyword:
+                if time_expression_word[0] in keyword:
                     important_words.append((keyword,i,time_expression_word[1]))
         i += 1
                 
@@ -181,31 +196,36 @@ def get_normalize_table(quest:str,node_features:list,node_surfaces:list):
                 min_diff = diff
         # print(important_word[2])
         # print(type(important_word[2]))
-        table[important_word[2]]=min_element 
+        if important_word[2] == 'before':
+            table.before.append(min_element)
+        elif important_word[2] == 'increase':
+            table.increase.append(min_element)
+        elif important_word[2] == 'decrease':
+            table.decrease.append(min_element)
+        elif important_word[2] == 'after':
+            table.after.append(min_element)
         # print(len(table))
         # print(table['before'])
         
-    print(table)
-
-    ans = int(table['before'][1])+int(table['increase'][1])
+    print(vars(table))
+    ans = mysum(table.before)+mysum(table.increase)-mysum(table.decrease)
     print("答えは" + str(ans))
-    # answer_table.append(table['before'])
-    # print(answer_table)
-            
-# def get_answer():
-#     answer_table = []
-#     print(answer_table)
-        
-        
-        
+
+def mysum(internal_style:list) -> int:
+    bsum = 0
+    for l in internal_style:
+        bsum += int(l[1])
+    return bsum
+
 
 
 if __name__ == "__main__":
     with open('/workspace/NLP-Container/data/sample_questions.csv' , encoding ="utf_8") as f:
         reader = csv.reader(f)
         quest_list = [row for row in reader]
-    quest = quest_list[14][4]
-    print(quest)
+    origin_guest = quest_list[16][4]
+    quest = "始め" + origin_guest
+    print(origin_guest)
     with open('/workspace/NLP-Container/data/time_expression_base.csv', encoding ="utf_8") as f:
         reader = csv.reader(f)
         time_expression_word_list = [row for row in reader]
