@@ -16,7 +16,7 @@ class MyTable:
         self.decrease = [("null",0,0,0)]
         self.after = [("null",0,0,0)]
     def all_list(self):
-        all_list = self.before + self.increase + self.decrease + self.after
+        return self.before + self.increase + self.decrease + self.after
 
 
 def get_node_info(quest:str) -> (list,list):
@@ -212,9 +212,10 @@ def get_normalize_table(quest:str,node_features:list,node_surfaces:list):
         # print(len(table))
         # print(table['before'])
     print(vars(table))
-    if table.all_list() in standard_list:
-        table.increase.extend(set(standard_list)-set(table.all_list()))
-
+    if table.all_list() not in standard_list:
+        table.increase.extend(list(set(standard_list)-set(table.all_list())))
+        print(set(table.all_list())-set(standard_list))
+    print(set(table.all_list())-set(standard_list))
     ans = mysum(table.before)+mysum(table.increase)-mysum(table.decrease)
     print("答えは" + str(ans))
 
