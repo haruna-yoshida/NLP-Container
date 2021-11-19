@@ -214,8 +214,6 @@ def get_normalize_table(quest:str,node_features:list,node_surfaces:list):
     print(vars(table))
     if table.all_list() not in standard_list:
         table.increase.extend(list(set(standard_list)-set(table.all_list())))
-        print(set(table.all_list())-set(standard_list))
-    print(set(table.all_list())-set(standard_list))
     ans = mysum(table.before)+mysum(table.increase)-mysum(table.decrease)
     print("答えは" + str(ans))
 
