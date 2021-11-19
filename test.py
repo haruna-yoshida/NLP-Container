@@ -15,6 +15,8 @@ class MyTable:
         self.increase = [("null",0,0,0)]
         self.decrease = [("null",0,0,0)]
         self.after = [("null",0,0,0)]
+    def all_list(self):
+        all_list = self.before + self.increase + self.decrease + self.after
 
 
 def get_node_info(quest:str) -> (list,list):
@@ -196,23 +198,23 @@ def get_normalize_table(quest:str,node_features:list,node_surfaces:list):
                 min_diff = diff
         # print(important_word[2])
         # print(type(important_word[2]))
+        if min_element in table.all_list():
+            continue
         if important_word[2] == 'before':
-            if min_element not in table.before:
                 if "何" not in min_element:
                     table.before.append(min_element)
         elif important_word[2] == 'increase':
-            if min_element not in table.increase:
                 table.increase.append(min_element)
         elif important_word[2] == 'decrease':
-            if min_element not in table.decrease:
                 table.decrease.append(min_element)
         elif important_word[2] == 'after':
-            if min_element not in table.after:
                 table.after.append(min_element)
         # print(len(table))
         # print(table['before'])
-        
     print(vars(table))
+    if table.all_list() in standard_list:
+        table.increase.extend(set(standard_list)-set(table.all_list()))
+
     ans = mysum(table.before)+mysum(table.increase)-mysum(table.decrease)
     print("答えは" + str(ans))
 
