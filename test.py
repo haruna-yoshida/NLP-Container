@@ -197,13 +197,18 @@ def get_normalize_table(quest:str,node_features:list,node_surfaces:list):
         # print(important_word[2])
         # print(type(important_word[2]))
         if important_word[2] == 'before':
-            table.before.append(min_element)
+            if min_element not in table.before:
+                if "何" not in min_element:
+                    table.before.append(min_element)
         elif important_word[2] == 'increase':
-            table.increase.append(min_element)
+            if min_element not in table.increase:
+                table.increase.append(min_element)
         elif important_word[2] == 'decrease':
-            table.decrease.append(min_element)
+            if min_element not in table.decrease:
+                table.decrease.append(min_element)
         elif important_word[2] == 'after':
-            table.after.append(min_element)
+            if min_element not in table.after:
+                table.after.append(min_element)
         # print(len(table))
         # print(table['before'])
         
@@ -223,9 +228,12 @@ if __name__ == "__main__":
     with open('/workspace/NLP-Container/data/sample_questions.csv' , encoding ="utf_8") as f:
         reader = csv.reader(f)
         quest_list = [row for row in reader]
-    origin_guest = quest_list[16][4]
-    quest = "始め" + origin_guest
-    print(origin_guest)
+    origin_quest = str(quest_list[4][4])
+    if "始め" in origin_quest:
+        quest = origin_quest
+    else:
+        quest = "始め" + origin_quest
+    print(origin_quest)
     with open('/workspace/NLP-Container/data/time_expression_base.csv', encoding ="utf_8") as f:
         reader = csv.reader(f)
         time_expression_word_list = [row for row in reader]
