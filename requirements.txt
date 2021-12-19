@@ -1,9 +1,9 @@
 mecab-python3==0.996.2
-gensim
-python-Levenshtein
-pymagnitude
-pandas
-matplotlib
-seaborn
-wikipedia
-sympy
+gensim==4.0.1
+python-Levenshtein==0.12.2
+pymagnitude==0.1.143
+pandas==1.1.5
+matplotlib==3.3.4
+seaborn==0.11.2
+wikipedia==1.4.0
+sympy==1.8
