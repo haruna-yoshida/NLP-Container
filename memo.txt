@@ -1,9 +1,9 @@
 最初にやること
 #pipのupdate
-pip install --upgrade pip setuptools
+pip install --upgrade pip setuptools --user
 
 #requirementsのinstall
-pip install -r requirements.txt
+pip install -r requirements.txt --user
 
 #update_csv_data.shのinstall
 sh update_csv_data.sh
