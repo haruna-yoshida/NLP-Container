@@ -43,6 +43,7 @@ def get_node_info(quest:str) -> (list,list):
         node_features.append(node.feature)
         node_surfaces.append(node.surface)
         node=node.next
+        # print(node_features)
     return node_features[1:-1], node_surfaces[1:-1]
 
 
@@ -87,8 +88,7 @@ def get_concept_number(quest:str,node_features:list,node_surfaces:list):
             # print(node_surface.split(","))
             origin = node_surface.split(",")[0]
             verbs.append((origin,i))
-        
-        
+     
         
         i += 1
 
@@ -101,7 +101,7 @@ def get_concept_number(quest:str,node_features:list,node_surfaces:list):
             diff = abs(word[1] - num[1])
             if diff < min_diff:
                 min_string = word[0]
-                min_index = word[1]
+                min_index = num[1]
                 min_diff = diff
         num_word_tuple.append((min_string,num[0],min_index))
             
@@ -174,7 +174,7 @@ def get_normalize_table(quest:str,node_features:list,node_surfaces:list):
         keywords = node_surface.split(",")
         for time_expression_word in time_expression_words:
             for keyword in keywords:
-                #print(keyword)
+                # print(keyword)
                 # print(time_expression_word[0])
                 if time_expression_word[0] in keyword:
                     important_words.append((keyword,i,time_expression_word[1]))
@@ -184,7 +184,7 @@ def get_normalize_table(quest:str,node_features:list,node_surfaces:list):
             # print(node_surface)
             # origin = node_feature.split(",")[6]
             # keywords.append((keyword,i))
-            # print(keywords)
+    # print(keywords)
                 
     for important_word in important_words:
         min_element = standard_list[0]
@@ -200,20 +200,30 @@ def get_normalize_table(quest:str,node_features:list,node_surfaces:list):
         # print(type(important_word[2]))
         if min_element in table.all_list():
             continue
-        if important_word[2] == 'before':
+        if '何' in min_element:
+            table.after.append(min_element)
+            continue
+        elif important_word[2] == 'before':
                 if "何" not in min_element:
                     table.before.append(min_element)
         elif important_word[2] == 'increase':
-                table.increase.append(min_element)
+                if '何' not in min_element:
+                    table.increase.append(min_element)
         elif important_word[2] == 'decrease':
-                table.decrease.append(min_element)
+                if '何' not in min_element:
+                    table.decrease.append(min_element)
         elif important_word[2] == 'after':
                 table.after.append(min_element)
         # print(len(table))
         # print(table['before'])
-    print(vars(table))
-    if table.all_list() not in standard_list:
-        table.increase.extend(list(set(standard_list)-set(table.all_list())))
+    # print(vars(table))
+    judge_list = list(set(standard_list)-set(table.all_list()))
+    for j in judge_list:
+        if "何" in j:
+            continue
+        else:
+            if table.all_list() not in standard_list:
+                table.increase.append(j)
     ans = mysum(table.before)+mysum(table.increase)-mysum(table.decrease)
     print("答えは" + str(ans))
 
@@ -229,7 +239,7 @@ if __name__ == "__main__":
     with open('/workspace/NLP-Container/data/sample_questions.csv' , encoding ="utf_8") as f:
         reader = csv.reader(f)
         quest_list = [row for row in reader]
-    origin_quest = str(quest_list[4][4])
+    origin_quest = str(quest_list[14][4])
     if "始め" in origin_quest:
         quest = origin_quest
     else:
