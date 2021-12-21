@@ -1,6 +1,6 @@
-pip install --upgrade pip
+pip install --upgrade pip --user
 # init install python packages
-pip install -r requirements.txt
+pip install -r requirements.txt --user
 
 # setup japanease font
 wget https://moji.or.jp/wp-content/ipafont/IPAexfont/ipaexg00401.zip --no-check-certificate
